@@ -7,13 +7,13 @@ import org.apache.kafka.common.serialization.Serializer;
 
 public class CustomSerializer implements Serializer<TruckCoordinates> {
 
-    private ObjectMapper objectMapper = new ObjectMapper();
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public byte[] serialize(String s, TruckCoordinates record) {
+    public byte[] serialize(String s, TruckCoordinates truckCoordinates) {
         byte[] response = null;
         try {
-            response = objectMapper.writeValueAsString(record).getBytes();
+            response = objectMapper.writeValueAsString(truckCoordinates).getBytes();
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }

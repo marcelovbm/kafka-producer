@@ -18,15 +18,12 @@ public class MainProducer {
         properties.setProperty("key.serializer", LongSerializer.class.getName());
         properties.setProperty("value.serializer", CustomSerializer.class.getName());
 
-        KafkaProducer<Long, TruckCoordinates> producer = new KafkaProducer<>(properties);
-        ProducerRecord<Long, TruckCoordinates> record = new ProducerRecord<>(TOPIC_NAME, 123456L,new TruckCoordinates(123, 123123.123123,123123.12312));
-
-        try{
-            producer.send(record, new KafkaCallback());
+        try(KafkaProducer<Long, TruckCoordinates> producer = new KafkaProducer<>(properties)){
+            TruckCoordinates truckCoordinates = new TruckCoordinates(123, 123123.123123,123123.12312);
+            ProducerRecord<Long, TruckCoordinates> producerRecord = new ProducerRecord<>(TOPIC_NAME, 123456L,truckCoordinates);
+            producer.send(producerRecord, new KafkaCallback());
         } catch (Exception e){
             e.printStackTrace();
-        } finally {
-            producer.close();
         }
     }
 }

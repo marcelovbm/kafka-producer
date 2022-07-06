@@ -9,7 +9,7 @@ public class KafkaCallback implements Callback {
     public void onCompletion(RecordMetadata recordMetadata, Exception e) {
         System.out.println(recordMetadata.partition());
         System.out.println(recordMetadata.offset());
-        System.out.println("Message Sent Successfylly");
+        System.out.println("Message Sent Successfully");
         if (e != null)
             e.printStackTrace();
     }
