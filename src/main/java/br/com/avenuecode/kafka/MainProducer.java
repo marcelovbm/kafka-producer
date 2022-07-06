@@ -20,6 +20,14 @@ public class MainProducer {
         properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
         properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CustomSerializer.class.getName());
         properties.setProperty(ProducerConfig.PARTITIONER_CLASS_CONFIG, VIPPartitioner.class.getName());
+        properties.setProperty(ProducerConfig.ACKS_CONFIG, "all");
+        properties.setProperty(ProducerConfig.BUFFER_MEMORY_CONFIG, "34343434");
+        properties.setProperty(ProducerConfig.COMPRESSION_TYPE_CONFIG, "gzip");
+        properties.setProperty(ProducerConfig.RETRIES_CONFIG, "2");
+        properties.setProperty(ProducerConfig.RETRY_BACKOFF_MS_CONFIG, "400");
+        properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, "10243343434");
+        properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "500");
+        properties.setProperty(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, "200");
 
         KafkaProducer<Long, TruckCoordinates> producer = new KafkaProducer<>(properties);
         TruckCoordinates truckCoordinates = new TruckCoordinates(123, 37.2431,115.793);
