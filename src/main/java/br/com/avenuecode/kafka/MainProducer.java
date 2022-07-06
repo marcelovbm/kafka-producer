@@ -28,13 +28,18 @@ public class MainProducer {
         properties.setProperty(ProducerConfig.BATCH_SIZE_CONFIG, "10243343434");
         properties.setProperty(ProducerConfig.LINGER_MS_CONFIG, "500");
         properties.setProperty(ProducerConfig.REQUEST_TIMEOUT_MS_CONFIG, "200");
+        properties.setProperty(ProducerConfig.TRANSACTIONAL_ID_CONFIG, "truckCoordinates-transactions");
 
         KafkaProducer<Long, TruckCoordinates> producer = new KafkaProducer<>(properties);
+        producer.initTransactions();
         TruckCoordinates truckCoordinates = new TruckCoordinates(123, 37.2431,115.793);
         ProducerRecord<Long, TruckCoordinates> producerRecord = new ProducerRecord<>(TOPIC_NAME, 123456L,truckCoordinates);
         try{
-            producer.send(producerRecord, new KafkaCallback());
+            producer.beginTransaction();
+            producer.send(producerRecord);
+            producer.commitTransaction();
         } catch (Exception e){
+            producer.abortTransaction();
             e.printStackTrace();
         }finally {
             producer.close();
