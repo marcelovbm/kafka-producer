@@ -5,6 +5,7 @@ import br.com.avenuecode.kafka.entity.TruckCoordinates;
 import br.com.avenuecode.kafka.partition.VIPPartitioner;
 import br.com.avenuecode.kafka.serializer.CustomSerializer;
 import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.LongSerializer;
 
@@ -15,10 +16,10 @@ public class MainProducer {
     private static final String TOPIC_NAME = "avenuecode-partitions";
     public static void main(String[] args) {
         Properties properties = new Properties();
-        properties.setProperty("bootstrap.servers", "localhost:9092");
-        properties.setProperty("key.serializer", LongSerializer.class.getName());
-        properties.setProperty("value.serializer", CustomSerializer.class.getName());
-        properties.setProperty("partitioner.class", VIPPartitioner.class.getName());
+        properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
+        properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, CustomSerializer.class.getName());
+        properties.setProperty(ProducerConfig.PARTITIONER_CLASS_CONFIG, VIPPartitioner.class.getName());
 
         KafkaProducer<Long, TruckCoordinates> producer = new KafkaProducer<>(properties);
         TruckCoordinates truckCoordinates = new TruckCoordinates(123, 37.2431,115.793);
